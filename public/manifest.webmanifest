@@ -1,0 +1,25 @@
+{
+  "name": "My Daily Ibadah",
+  "short_name": "Ibadah",
+  "description": "Private Islamic daily prayer and Quran tracker",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f7f4ea",
+  "theme_color": "#065f46",
+  "orientation": "portrait-primary",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

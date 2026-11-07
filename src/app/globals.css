@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f4ea;
+  --foreground: #0f3d2e;
+  --card: rgba(255, 255, 255, 0.82);
+  --muted: #e8f5ef;
+  --accent: #d4a017;
+  --emerald-deep: #065f46;
+  --cream: #f7f4ea;
+}
+
+.dark {
+  --background: #071f18;
+  --foreground: #e8f5ef;
+  --card: rgba(6, 46, 36, 0.72);
+  --muted: #0b2f24;
+  --accent: #e0b94a;
+  --emerald-deep: #34d399;
+  --cream: #0a241c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-bengali);
+  --font-display: var(--font-display);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(212, 160, 23, 0.12), transparent 24%),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-bengali), "Noto Sans Bengali", system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+.islamic-pattern {
+  background-image:
+    linear-gradient(30deg, rgba(6, 95, 70, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(6, 95, 70, 0.05) 87.5%, rgba(6, 95, 70, 0.05)),
+    linear-gradient(150deg, rgba(6, 95, 70, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(6, 95, 70, 0.05) 87.5%, rgba(6, 95, 70, 0.05)),
+    linear-gradient(30deg, rgba(6, 95, 70, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(6, 95, 70, 0.05) 87.5%, rgba(6, 95, 70, 0.05)),
+    linear-gradient(150deg, rgba(6, 95, 70, 0.05) 12%, transparent 12.5%, transparent 87%, rgba(6, 95, 70, 0.05) 87.5%, rgba(6, 95, 70, 0.05)),
+    linear-gradient(60deg, rgba(212, 160, 23, 0.06) 25%, transparent 25.5%, transparent 75%, rgba(212, 160, 23, 0.06) 75%, rgba(212, 160, 23, 0.06)),
+    linear-gradient(60deg, rgba(212, 160, 23, 0.06) 25%, transparent 25.5%, transparent 75%, rgba(212, 160, 23, 0.06) 75%, rgba(212, 160, 23, 0.06));
+  background-size: 40px 70px;
+  background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(5, 150, 105, 0.35);
+  border-radius: 999px;
+}
