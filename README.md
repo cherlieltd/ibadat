@@ -1,6 +1,6 @@
-# My Daily Ibadah · আমার দৈনিক ইবাদত
+# Rimi · রিমি
 
-A private, mobile-first Islamic daily prayer & Quran tracker for one family.
+A private, mobile-first Islamic daily prayer & Quran tracker for Ridika (family use).
 
 - **Wife:** track five prayers + 60 minutes of Quran with Yes / No / unanswered
 - **Husband:** secure read-only admin dashboard with live updates

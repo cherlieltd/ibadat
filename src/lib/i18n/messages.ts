@@ -1,6 +1,6 @@
 export const messages = {
   bn: {
-    appName: "আমার দৈনিক ইবাদত",
+    appName: "রিমি",
     greeting: "আসসালামু আলাইকুম 🌸",
     todayTracker: "আজকের ইবাদত ট্র্যাকার",
     login: "লগইন",
@@ -69,7 +69,7 @@ export const messages = {
     viewReports: "সাপ্তাহিক ও মাসিক রিপোর্ট",
   },
   en: {
-    appName: "My Daily Ibadah",
+    appName: "Rimi",
     greeting: "Assalamu Alaikum 🌸",
     todayTracker: "Today's Ibadah Tracker",
     login: "Login",

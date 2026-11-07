@@ -1,7 +1,7 @@
 import type { PrayerKey } from "./types";
 
-export const APP_NAME = "My Daily Ibadah";
-export const APP_NAME_BN = "আমার দৈনিক ইবাদত";
+export const APP_NAME = "Rimi";
+export const APP_NAME_BN = "রিমি";
 export const QURAN_TARGET_MINUTES = 60;
 
 export const PRAYERS: Array<{
