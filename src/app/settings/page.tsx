@@ -12,6 +12,11 @@ import { Input } from "@/components/ui/input";
 import { isDemoMode } from "@/lib/config";
 import { resetDemoData } from "@/lib/demo/store";
 import type { Locale } from "@/lib/i18n/messages";
+import {
+  ensureNotificationPermission,
+  scheduleBoguraPrayerNotifications,
+  sendTestNotification,
+} from "@/lib/notifications";
 import { toast } from "sonner";
 
 export default function SettingsPage() {
@@ -29,12 +34,61 @@ function SettingsContent() {
 
   if (!user) return null;
 
-  async function toggleReminder(key: "reminder_enabled" | "quran_reminder_enabled") {
-    await updateProfile({ [key]: !user!.profile[key] });
-    if (typeof Notification !== "undefined" && Notification.permission === "default") {
-      await Notification.requestPermission();
+  async function enableAndSchedule(
+    nextPrayer: boolean,
+    nextQuran: boolean,
+  ) {
+    if (nextPrayer || nextQuran) {
+      const permission = await ensureNotificationPermission();
+      if (permission !== "granted") {
+        toast.error(t("notificationPermissionNeeded"));
+        return false;
+      }
     }
+
+    await updateProfile({
+      reminder_enabled: nextPrayer,
+      quran_reminder_enabled: nextQuran,
+    });
+
+    if (user!.profile.role === "wife") {
+      await scheduleBoguraPrayerNotifications({
+        locale,
+        prayerEnabled: nextPrayer,
+        quranEnabled: nextQuran,
+      });
+    }
+
     toast.success(t("saved"));
+    return true;
+  }
+
+  async function toggleReminder(key: "reminder_enabled" | "quran_reminder_enabled") {
+    const nextPrayer =
+      key === "reminder_enabled" ? !user!.profile.reminder_enabled : user!.profile.reminder_enabled;
+    const nextQuran =
+      key === "quran_reminder_enabled"
+        ? !user!.profile.quran_reminder_enabled
+        : user!.profile.quran_reminder_enabled;
+    await enableAndSchedule(nextPrayer, nextQuran);
+  }
+
+  async function onTestNotification() {
+    if (!user) return;
+    try {
+      await sendTestNotification(locale);
+      await scheduleBoguraPrayerNotifications({
+        locale,
+        prayerEnabled: true,
+        quranEnabled: user.profile.quran_reminder_enabled,
+      });
+      if (!user.profile.reminder_enabled) {
+        await updateProfile({ reminder_enabled: true });
+      }
+      toast.success(t("saved"));
+    } catch {
+      toast.error(t("notificationPermissionNeeded"));
+    }
   }
 
   return (
@@ -118,7 +172,7 @@ function SettingsContent() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="font-medium">{t("prayerReminder")}</p>
-                <p className="text-xs text-emerald-800/60">Optional browser reminder</p>
+                <p className="text-xs text-emerald-800/60">{t("prayerReminderHint")}</p>
               </div>
               <Switch
                 checked={user.profile.reminder_enabled}
@@ -128,13 +182,21 @@ function SettingsContent() {
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="font-medium">{t("quranReminder")}</p>
-                <p className="text-xs text-emerald-800/60">Optional Quran reminder</p>
+                <p className="text-xs text-emerald-800/60">{t("quranReminderHint")}</p>
               </div>
               <Switch
                 checked={user.profile.quran_reminder_enabled}
                 onCheckedChange={() => void toggleReminder("quran_reminder_enabled")}
               />
             </div>
+            <Button variant="outline" className="w-full" onClick={() => void onTestNotification()}>
+              {t("testNotification")}
+            </Button>
+            <p className="text-xs leading-relaxed text-emerald-800/60 dark:text-emerald-200/60">
+              {locale === "bn"
+                ? "iPhone: হোম স্ক্রিন অ্যাপ থেকে অনুমতি দিন। ফোন স্লিপ থাকলেও ভালো কাজ করতে অ্যাপ মাঝে মাঝে খুলুন।"
+                : "iPhone: allow permission from the Home Screen app. Open the app occasionally so schedules refresh after sleep."}
+            </p>
           </CardContent>
         </Card>
 
@@ -143,12 +205,8 @@ function SettingsContent() {
             <CardTitle>{t("installApp")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-emerald-800/80 dark:text-emerald-200/80">
-            <p>
-              iPhone: Share → Add to Home Screen
-            </p>
-            <p>
-              Android: Browser menu → Install app / Add to Home screen
-            </p>
+            <p>iPhone: Share → Add to Home Screen</p>
+            <p>Android: Browser menu → Install app / Add to Home screen</p>
           </CardContent>
         </Card>
 

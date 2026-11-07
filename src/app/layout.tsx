@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { PwaRegister } from "@/components/providers/pwa-register";
+import { PrayerNotificationManager } from "@/components/providers/prayer-notification-manager";
 import "./globals.css";
 
 const bengali = Hind_Siliguri({
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               {children}
               <Toaster richColors position="top-center" />
               <PwaRegister />
+              <PrayerNotificationManager />
             </AuthProvider>
           </LocaleProvider>
         </ThemeProvider>

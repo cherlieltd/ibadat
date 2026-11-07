@@ -9,6 +9,7 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { DateHeader } from "@/components/tracker/date-header";
 import { ProgressRing } from "@/components/tracker/progress-ring";
 import { PrayerCard } from "@/components/tracker/prayer-card";
+import { PrayerTimesCard } from "@/components/tracker/prayer-times-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTrackedRecords } from "@/hooks/use-records";
 import { MOTIVATIONAL_MESSAGES, PRAYERS } from "@/lib/constants";
@@ -56,6 +57,8 @@ function DashboardContent() {
           </h1>
           <DateHeader date={today} />
         </motion.div>
+
+        <PrayerTimesCard />
 
         <Card>
           <CardContent className="flex flex-col items-center gap-4 p-6 sm:flex-row sm:justify-between">
